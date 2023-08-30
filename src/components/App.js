@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import './../styles/App.css';
-import axios from "axios";
+
 
 const App = () => {
   let [name, setName] = useState('');
@@ -9,10 +9,15 @@ const App = () => {
 
 
   function handle(e) {
-    e.preventDefault();
-    axios.get(`http://www.omdbapi.com/?s=${name}&apikey=696d88ef`).then(data =>( setMovies(data.data.Search), setError('')))
-      .catch(err => console.log(err));
-  }
+  e.preventDefault();
+  fetch(`http://www.omdbapi.com/?s=${name}&apikey=696d88ef`)
+    .then(response => response.json())
+    .then(data => {
+      setMovies(data.Search);
+      setError('');
+    })
+    .catch(err => console.log(err));
+}
 
   return (
     <div>
